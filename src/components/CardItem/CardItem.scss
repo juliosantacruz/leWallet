@@ -1,0 +1,26 @@
+.card-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 10px auto;
+    padding: 10px;
+    max-width: 500px;
+    width: 90vw;
+    height: 70px;
+    border: 1px solid rgba(0, 0, 0, 0);
+    background-color: rgba(45, 45, 45, 0.298);
+    border-radius: 15px;
+    p{
+        font-size: 20px;
+        margin: 7px 0;
+    }
+    small{
+
+        margin: 3px 0;
+    }
+}
+ .item-header{
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+ }
