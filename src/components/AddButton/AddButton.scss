@@ -1,14 +1,38 @@
 .add-button{
     position: fixed;
-    bottom: 24px;
-    right: 24px;
+    bottom: 20px;
+    right: 20px;
     z-index: 5;
 }
 .add-button-button{
-    height: 100px;
-    width: 100px;
+    height: 60px;
+    width: 60px;
     cursor: pointer;
 }
 .add-button-icon{
-    font-size: 60px;
+    font-size: 30px;
+}
+.form-buttons{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    min-width: 280px;
+}
+.add-button-form{
+  
+    width: 45%;
+    margin: 10px 10px;
+    border-radius: 7px;
+    cursor: pointer;
+}
+.add-expense{
+    color: white;
+    background: #b55252;
+    border: 1px solid #830000;
+}
+.add-income{
+    color: white;
+    background: #5ab552;
+    border: 1px solid #00831c;
 }

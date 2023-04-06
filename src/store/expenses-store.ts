@@ -14,36 +14,9 @@ interface Expenses {
   deleteExpense: (id: string) => void;
   incomes: Income[];
   addIncome: (income: Income) => void;
+  deleteIncome: (id: string) => void;
 }
 
-const months: MonthExpenses[] = [
-  { month: "January", expenses: [] },
-  { month: "February", expenses: [] },
-  { month: "March", expenses: [] },
-  { month: "April", expenses: [] },
-  { month: "May", expenses: [] },
-  { month: "June", expenses: [] },
-  { month: "July", expenses: [] },
-  { month: "August", expenses: [] },
-  { month: "September", expenses: [] },
-  { month: "October", expenses: [] },
-  { month: "November", expenses: [] },
-  { month: "December", expenses: [] },
-];
-
-const expenseMonth = (element: Expense) =>
-  parseInt(element.date.split("-", 2)[1]) - 1;
-const expenseYear = (element: Expense) =>
-  parseInt(element.date.split("-", 2)[0]);
-const setExpense = (element: Expense) => {
-  const year = expenseYear(element);
-  const monthIndex = expenseMonth(element);
-  const expenseElement = months[monthIndex];
-  const monthTitle = expenseElement.month + "-" + year;
-  expenseElement.month = monthTitle;
-  expenseElement.expenses.push(element);
-  return expenseElement;
-};
 
 export const useExpensesStore = create<Expenses>()(
   persist(
@@ -63,6 +36,11 @@ export const useExpensesStore = create<Expenses>()(
         set((state) => ({
           incomes: [...state.incomes, income],
         })),
+      deleteIncome: (id: string) => {
+        set((state) => ({
+          incomes: state.incomes.filter((income) => income.id !== id),
+        }));
+      },
     }),
     {
       name: "expenses-storage",

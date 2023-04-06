@@ -1,13 +1,21 @@
-import {  Col, Row } from "antd";
+import { Col, Row } from "antd";
 import { Expense } from "@/types/expense";
 import React from "react";
 import { useExpensesStore } from "@/store/expenses-store";
-export default function CardItem({data}:any) {
-  const {deleteExpense}= useExpensesStore()
 
-  const onDelete =()=>{
-    deleteExpense(data.id)
-  }
+
+export default function CardItem({ data, type }: any) {
+  const { deleteExpense, deleteIncome } = useExpensesStore();
+
+  const onDelete = () => {
+    console.log(data.id);
+    if(type === 'income'){
+      deleteIncome(data.id);
+    }else{
+      deleteExpense(data.id);
+    }
+    
+  };
   return (
     <article className="card-item">
       {/* <div className="item-header">
@@ -20,9 +28,7 @@ export default function CardItem({data}:any) {
           <Col>
             <small>{data?.date}</small>
           </Col>
-          <Col>
-             
-          </Col>
+          <Col></Col>
         </Row>
         <Row justify={"space-between"} align={"middle"}>
           <Col>
@@ -32,15 +38,10 @@ export default function CardItem({data}:any) {
             <p>${data?.amount}</p>
           </Col>
           <Col>
-          <button onClick={onDelete}>Delete</button>
+            <button onClick={onDelete}>Delete</button>
           </Col>
         </Row>
-         
-        
-           
-         
       </div>
-     
     </article>
   );
 }
