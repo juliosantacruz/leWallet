@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import useGetData from "@/hooks/useGetData";
 import { Expense } from "@/types/expense";
 import { Income } from "@/types/income";
-import { CloseCircleOutlined, FileAddOutlined } from "@ant-design/icons";
+import { CloseCircleOutlined } from "@ant-design/icons";
 import ChartSummary from "@/components/ChartSummary/ChartSummary";
 
 type DataType = Expense | Income;
@@ -28,13 +28,25 @@ const months: string[] = [
 
 export default function Details() {
   const router = useRouter();
-  const dateQuery = router.query.id;
+  const dateQuery: any = router.query.id;
   const { expenses, incomes } = useExpensesStore();
 
-  const expenseMonth = (element: any) => parseInt(element.split("-", 2)[1]) - 1;
-  const expenseYear = (element: any) => parseInt(element.split("-", 2)[0]);
+  const expenseMonth = (element: string) => {
+    if (typeof element === "string") {
+      return parseInt(element.split("-", 2)[1]) - 1;
+    } else {
+      console.log("valor no string == error improbable");
+    }
+  };
+  const expenseYear = (element: string) => {
+    if (typeof element === "string") {
+      return parseInt(element.split("-", 2)[0]);
+    } else {
+      console.log("valor no string == error improbable");
+    }
+  };
 
-  const monthTitle = expenseMonth(dateQuery);
+  const monthTitle:any = expenseMonth(dateQuery);
   const yearTitle = expenseYear(dateQuery);
 
   const cardTitle = `${months[monthTitle]} - ${yearTitle}`;
@@ -74,7 +86,7 @@ export default function Details() {
           itemLayout="horizontal"
           dataSource={dataExpense}
           footer={<div>{footer(totalExpenses)}</div>}
-          renderItem={(item, index) => (
+          renderItem={(item: any) => (
             <List.Item>
               <List.Item.Meta
                 title={
@@ -107,7 +119,7 @@ export default function Details() {
           itemLayout="horizontal"
           dataSource={dataIncome}
           footer={<div>{footer(totalIncome)}</div>}
-          renderItem={(item, index) => (
+          renderItem={(item) => (
             <List.Item>
               <List.Item.Meta
                 title={

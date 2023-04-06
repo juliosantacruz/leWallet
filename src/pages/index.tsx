@@ -49,8 +49,8 @@ export default function Home() {
   return (
     <>
       <section className="">
-        <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
-          Gastos y Presupuestos
+        <h1 style={{ textAlign: "center", marginBottom: "25px", fontSize:'28px'}}>
+          Le Wallet... <br/><small>take control of your money</small>
         </h1>
 
         {monthExpenses?.sort().map((element: string) => {

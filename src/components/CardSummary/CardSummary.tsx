@@ -83,8 +83,19 @@ export default function CardSummary({ dateCard }: any) {
       </div>
 
       <div className="card-footer">
-        <Progress percent={GastoPorcentaje} status="active" showInfo={false} />
+        <Progress type="line"  percent={GastoPorcentaje} status={ProgressBarColor(GastoPorcentaje)} showInfo={false} />
       </div>
     </article>
   );
+}
+const ProgressBarColor=(number:number)=>{
+  if(number===100){
+    return 'success'
+  }
+  if(number>100){
+    return 'exception'
+  }
+  if(number<100){
+    return 'active'
+  }
 }
