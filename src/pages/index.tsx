@@ -49,7 +49,9 @@ export default function Home() {
   return (
     <>
       <section className="">
-        <h1>Gastos y Presupuestos</h1>
+        <h1 style={{ textAlign: "center", marginBottom: "20px" }}>
+          Gastos y Presupuestos
+        </h1>
 
         {monthExpenses?.sort().map((element: string) => {
           return (
@@ -59,18 +61,14 @@ export default function Home() {
           );
         })}
 
-        {/* {expensesList?.map((element: Expense) => {
-          return <CardItem key={element.id} data={element} />;
-        })} */}
         <Modal
-           
           open={isModalOpen}
           onOk={handleOk}
           onCancel={handleCancel}
           footer={null}
         >
-          {addExpense && <AddExpenseForm />}
-          {addIncome && <AddIncomeForm />}
+          {addExpense && <AddExpenseForm setOpenModal={setIsModalOpen} />}
+          {addIncome && <AddIncomeForm setOpenModal={setIsModalOpen} />}
         </Modal>
 
         <AddButton

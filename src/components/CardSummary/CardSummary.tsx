@@ -61,7 +61,7 @@ export default function CardSummary({ dateCard }: any) {
   return (
     <article className="card-summary">
       <div className="card-title">
-        <h2>Mes: {cardTitle}</h2>
+        <h2> {cardTitle}</h2>
       </div>
       <div className="card-content">
         <Row justify={"space-between"}>

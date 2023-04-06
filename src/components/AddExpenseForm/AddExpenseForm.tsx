@@ -6,7 +6,7 @@ import { v4 } from "uuid";
 import { Expense } from "@/types/expense";
 import useTime from "@/hooks/useTime";
 
-export default function AddExpenseForm() {
+export default function AddExpenseForm({setOpenModal}:any) {
   const { addExpense } = useExpensesStore();
   const { getToday } = useTime();
   const today: any = getToday(dayjs());
@@ -27,9 +27,12 @@ export default function AddExpenseForm() {
         description: "Generic Expense",
       });
       onClear();
+      setOpenModal(false);
     } else {
       addExpense(formData);
       onClear();
+      setOpenModal(false);
+
     }
   };
 

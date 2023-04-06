@@ -11,17 +11,33 @@ import ChartSummary from "@/components/ChartSummary/ChartSummary";
 
 type DataType = Expense | Income;
 
-const dateFormat = (date: any) => {
-  const month = date.split("-", 3)[1];
-  const day = date.split("-", 3)[2];
-
-  return `${month}-${day}`;
-};
+const months: string[] = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 
 export default function Details() {
   const router = useRouter();
   const dateQuery = router.query.id;
   const { expenses, incomes } = useExpensesStore();
+
+  const expenseMonth = (element: any) => parseInt(element.split("-", 2)[1]) - 1;
+  const expenseYear = (element: any) => parseInt(element.split("-", 2)[0]);
+
+  const monthTitle = expenseMonth(dateQuery);
+  const yearTitle = expenseYear(dateQuery);
+
+  const cardTitle = `${months[monthTitle]} - ${yearTitle}`;
 
   const getDataExpenses = useGetData(expenses, dateQuery);
   const getDataIncome = useGetData(incomes, dateQuery);
@@ -32,96 +48,6 @@ export default function Details() {
   const totalExpenses = getDataExpenses.totalAmount;
   const totalIncome = getDataIncome.totalAmount;
 
-  const expenseColumns: ColumnsType<DataType> = [
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      render: (text) => <a>{text}</a>,
-      width: "25%",
-    },
-    {
-      title: "Category",
-      dataIndex: "category",
-      key: "category",
-      ellipsis: true,
-      width: "20%",
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      width: "20%",
-      render: (_, record) => <span>{dateFormat(record.date)}</span>,
-    },
-    {
-      title: "Amount",
-      dataIndex: "amount",
-      key: "amount",
-      width: "20%",
-      render: (_, record) => <span>${record.amount}</span>,
-    },
-    {
-      // title: () => (
-      //   <button
-      //     style={{ width: "100%" }}
-      //     onClick={() => {
-      //       console.log("agregar");
-      //     }}
-      //   >
-      //     <FileAddOutlined />
-      //   </button>
-      // ),
-      key: "action",
-      render: (_, record) => (
-        <button className="delete-btn" onClick={() => onDeleteExpese(record)}>
-          <CloseCircleOutlined />
-        </button>
-      ),
-      width: "10%",
-    },
-  ];
-  const incomeColumns: ColumnsType<DataType> = [
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
-      width: "20%",
-      render: (_, record) => <span>{dateFormat(record.date)}</span>,
-    },
-    {
-      title: "Amount",
-      dataIndex: "amount",
-      key: "amount",
-      width: "20%",
-      render: (_, record) => <span>${record.amount}</span>,
-    },
-    {
-      // title: () => (
-      //   <button
-      //     style={{ width: "100%" }}
-      //     onClick={() => {
-      //       console.log("agregar");
-      //     }}
-      //   >
-      //     <FileAddOutlined />
-      //   </button>
-      // ),
-      key: "action",
-      render: (_, record) => (
-        <button className="delete-btn" onClick={() => onDeleteIncome(record)}>
-          <CloseCircleOutlined />
-        </button>
-      ),
-      width: "10%",
-    },
-  ];
   const footer = (totalAmount: number) => {
     return <div className="list-footer">Total ${totalAmount}</div>;
   };
@@ -137,10 +63,10 @@ export default function Details() {
 
   return (
     <section className="details-main">
-      <h2>Title {router.query.id} </h2>
-        <div className="chart-summary">
-          <ChartSummary Expenses={totalExpenses} Income={totalIncome} />
-        </div>
+      <h2>{cardTitle} </h2>
+      <div className="chart-summary">
+        <ChartSummary Expenses={totalExpenses} Income={totalIncome} />
+      </div>
       <div className="dataset">
         <h3 className="list-title">Expenses</h3>
 
@@ -167,7 +93,7 @@ export default function Details() {
                   </div>
                 }
                 description={
-                  <div className="list-item-description">{`date: ${item.date}`}</div>
+                  <div className="list-item-description">{`date: ${item.date} - category: ${item.category}`}</div>
                 }
               />
             </List.Item>

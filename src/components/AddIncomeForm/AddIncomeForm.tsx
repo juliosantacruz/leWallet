@@ -7,8 +7,8 @@ import { v4 } from "uuid";
 import useTime from "@/hooks/useTime";
 import { Income } from "@/types/income";
 
-export default function AddIncomeForm() {
-  const { incomes, addIncome } = useExpensesStore();
+export default function AddIncomeForm({setOpenModal}:any) {
+  const { addIncome } = useExpensesStore();
   const { getToday } = useTime();
   const today: any = getToday(dayjs());
   const defaultExpenseValue = {
@@ -27,9 +27,13 @@ export default function AddIncomeForm() {
         description: "Generic Income",
       });
       onClear();
+      setOpenModal(false);
+
     } else {
         addIncome(formData);
       onClear();
+      setOpenModal(false);
+
     }
   };
 
