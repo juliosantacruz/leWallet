@@ -12,18 +12,27 @@
 .dataset{
     margin: 20px 0;
 }
-.delete-btn {
+.options-btn {
     // margin: 0 0 0 30px;
   font-size: 18px;
   background: none;
-  color: rgb(215, 23, 23);
+  color: rgb(0, 0, 0);
   border: none;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 5px 8px 1px;
   border-radius: 15%;
-  &:active {
-    background: rgba(180, 2, 2, 0.414);
-    border: 2px rgb(231, 0, 0) solid;
+  min-height: 30px;
+  min-width: 30px;
+  &:hover{
+    background: rgba(0, 0, 0, 1);
+    border: 2px rgb(0, 0, 0) solid;
     color: rgb(255, 255, 255);
-    transform: translateY(-5px);
+  }
+  
+  &:active {
+    background: rgba(0, 0, 0, 1);
+    border: 2px rgb(0, 0, 0) solid;
+    color: rgb(255, 255, 255);
+    transform: translateY( 5px);
   }
 }
 

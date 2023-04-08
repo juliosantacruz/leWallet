@@ -1,13 +1,13 @@
 import React from "react";
-import { List, Table } from "antd";
-import type { ColumnsType } from "antd/es/table";
+import { List, Popover,   } from "antd";
 import { useExpensesStore } from "@/store/expenses-store";
 import { useRouter } from "next/router";
 import useGetData from "@/hooks/useGetData";
 import { Expense } from "@/types/expense";
 import { Income } from "@/types/income";
-import { CloseCircleOutlined } from "@ant-design/icons";
+import {   MoreOutlined } from "@ant-design/icons";
 import ChartSummary from "@/components/ChartSummary/ChartSummary";
+import { useState } from "react";
 
 type DataType = Expense | Income;
 
@@ -46,7 +46,7 @@ export default function Details() {
     }
   };
 
-  const monthTitle:any = expenseMonth(dateQuery);
+  const monthTitle: any = expenseMonth(dateQuery);
   const yearTitle = expenseYear(dateQuery);
 
   const cardTitle = `${months[monthTitle]} - ${yearTitle}`;
@@ -73,6 +73,28 @@ export default function Details() {
     deleteIncome(data.id);
   };
 
+  function toDelete(item:any){
+    if(item.category){
+      onDeleteExpese(item)
+    }else{
+      onDeleteIncome(item)
+    }
+  }
+
+  const popoverContent = (item: any) => (
+    <div className="form-buttons">
+      <button className="add-button-form add-income"> Edit </button>
+      <button
+        className="add-button-form add-expense"
+        
+        onClick={()=>toDelete(item)}
+      >
+        {" "}
+        Delete{" "}
+      </button>
+    </div>
+  );
+
   return (
     <section className="details-main">
       <h2>{cardTitle} </h2>
@@ -95,12 +117,16 @@ export default function Details() {
                     <div> {item.description} </div>
                     <div className="list-item-right">
                       <div className="list-item-amount">${item.amount} </div>
-                      <button
-                        className="delete-btn"
-                        onClick={() => onDeleteExpese(item)}
+                      <Popover
+                        placement="topRight"
+                        content={popoverContent(item)}
+                        trigger="click"
+                         
                       >
-                        <CloseCircleOutlined />
-                      </button>
+                        <button className="options-btn">
+                          <MoreOutlined />
+                        </button>
+                      </Popover>
                     </div>{" "}
                   </div>
                 }
@@ -128,12 +154,15 @@ export default function Details() {
                     <div> {item.description} </div>
                     <div className="list-item-right">
                       <div className="list-item-amount">${item.amount} </div>
-                      <button
-                        className="delete-btn"
-                        onClick={() => onDeleteIncome(item)}
+                      <Popover
+                        placement="topRight"
+                        content={popoverContent(item)}
+                        trigger="click"
                       >
-                        <CloseCircleOutlined />
-                      </button>
+                        <button className="options-btn">
+                          <MoreOutlined />
+                        </button>
+                      </Popover>
                     </div>{" "}
                   </div>
                 }
