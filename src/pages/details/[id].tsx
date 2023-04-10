@@ -117,7 +117,7 @@ export default function Details() {
                     {" "}
                     <div> {item.description} </div>
                     <div className="list-item-right">
-                      <div className="list-item-amount">${setFormat(item.amount)} </div>
+                      <div className="list-item-amount">{setFormat(item.amount)} </div>
                       <Popover
                         placement="topRight"
                         content={popoverContent(item)}
