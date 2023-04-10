@@ -3,7 +3,7 @@ import React from "react";
 import { useExpensesStore } from "@/store/expenses-store";
 import { Income } from "@/types/income";
 import { Expense } from "@/types/expense";
-import {setFormat } from "../../hooks/useUtils"
+import { setFormat } from "../../hooks/useUtils";
 
 const setMonthYear = (element: Expense | Income) => {
   const expenseMonth = parseInt(element.date.split("-", 2)[1]);
@@ -59,6 +59,15 @@ export default function CardSummary({ dateCard }: any) {
   const cardTitle = `${months[monthTitle]} - ${yearTitle}`;
 
   const GastoPorcentaje = (expensesAmount / incomeAmount) * 100;
+
+const balanceStyle=(amount:any) =>{
+  if(amount>0){
+    return 'amount'
+  }else{
+    return `amount broke`
+  }
+}
+
   return (
     <article className="card-summary">
       <div className="card-title">
@@ -70,7 +79,9 @@ export default function CardSummary({ dateCard }: any) {
             <p>Expenses: </p>
           </Col>
           <Col>
-            <p>{setFormat(expensesAmount)}</p>
+            <div className="amount">
+              <p>{setFormat(expensesAmount)}</p>
+            </div>
           </Col>
         </Row>
         <Row justify={"space-between"}>
@@ -78,25 +89,42 @@ export default function CardSummary({ dateCard }: any) {
             <p>Income: </p>
           </Col>
           <Col>
-            <p>{setFormat(incomeAmount)}</p>
+            <div className="amount">
+              <p>{setFormat(incomeAmount)}</p>
+            </div>
+          </Col>
+        </Row>
+        <Row justify={"space-between"}>
+          <Col>
+            <p>Balance: </p>
+          </Col>
+          <Col>
+            <div className={balanceStyle(incomeAmount - expensesAmount)}>
+              <p>{setFormat(incomeAmount - expensesAmount)}</p>
+            </div>
           </Col>
         </Row>
       </div>
 
       <div className="card-footer">
-        <Progress type="line"  percent={GastoPorcentaje} status={ProgressBarColor(GastoPorcentaje)} showInfo={false} />
+        <Progress
+          type="line"
+          percent={GastoPorcentaje}
+          status={ProgressBarColor(GastoPorcentaje)}
+          showInfo={false}
+        />
       </div>
     </article>
   );
 }
-const ProgressBarColor=(number:number)=>{
-  if(number===100){
-    return 'success'
+const ProgressBarColor = (number: number) => {
+  if (number === 100) {
+    return "success";
   }
-  if(number>100){
-    return 'exception'
+  if (number > 100) {
+    return "exception";
   }
-  if(number<100){
-    return 'active'
+  if (number < 100) {
+    return "active";
   }
-}
+};
