@@ -8,6 +8,7 @@ import { Income } from "@/types/income";
 import {   MoreOutlined } from "@ant-design/icons";
 import ChartSummary from "@/components/ChartSummary/ChartSummary";
 import { useState } from "react";
+import { setFormat } from "@/hooks/useUtils";
 
 type DataType = Expense | Income;
 
@@ -61,7 +62,7 @@ export default function Details() {
   const totalIncome = getDataIncome.totalAmount;
 
   const footer = (totalAmount: number) => {
-    return <div className="list-footer">Total ${totalAmount}</div>;
+    return <div className="list-footer">Total {setFormat(totalAmount)}</div>;
   };
 
   const { deleteExpense, deleteIncome } = useExpensesStore();
@@ -116,7 +117,7 @@ export default function Details() {
                     {" "}
                     <div> {item.description} </div>
                     <div className="list-item-right">
-                      <div className="list-item-amount">${item.amount} </div>
+                      <div className="list-item-amount">${setFormat(item.amount)} </div>
                       <Popover
                         placement="topRight"
                         content={popoverContent(item)}
@@ -153,7 +154,7 @@ export default function Details() {
                     {" "}
                     <div> {item.description} </div>
                     <div className="list-item-right">
-                      <div className="list-item-amount">${item.amount} </div>
+                      <div className="list-item-amount">{ setFormat(item.amount)} </div>
                       <Popover
                         placement="topRight"
                         content={popoverContent(item)}

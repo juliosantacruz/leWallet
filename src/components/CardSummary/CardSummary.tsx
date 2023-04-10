@@ -3,6 +3,7 @@ import React from "react";
 import { useExpensesStore } from "@/store/expenses-store";
 import { Income } from "@/types/income";
 import { Expense } from "@/types/expense";
+import {setFormat } from "../../hooks/useUtils"
 
 const setMonthYear = (element: Expense | Income) => {
   const expenseMonth = parseInt(element.date.split("-", 2)[1]);
@@ -69,7 +70,7 @@ export default function CardSummary({ dateCard }: any) {
             <p>Expenses: </p>
           </Col>
           <Col>
-            <p>${expensesAmount}</p>
+            <p>{setFormat(expensesAmount)}</p>
           </Col>
         </Row>
         <Row justify={"space-between"}>
@@ -77,7 +78,7 @@ export default function CardSummary({ dateCard }: any) {
             <p>Income: </p>
           </Col>
           <Col>
-            <p>${incomeAmount}</p>
+            <p>{setFormat(incomeAmount)}</p>
           </Col>
         </Row>
       </div>
