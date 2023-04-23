@@ -1,6 +1,6 @@
 import {create} from "zustand"
 
-interface UXStore{
+interface StateStore{
     openModal:boolean,
     setOpenModal:(value:boolean)=>void,
     addExpense:boolean,
@@ -9,7 +9,7 @@ interface UXStore{
     setAddIncome:(value:boolean)=>void,
 
 }
-export const useUXStore = create<UXStore>(
+export const useStateStore = create<StateStore>(
     (set) =>({
         openModal:false,
         setOpenModal:(value:boolean)=> set(()=>({

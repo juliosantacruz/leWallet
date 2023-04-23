@@ -7,8 +7,8 @@ import { Expense } from "@/types/expense";
 import { Income } from "@/types/income";
 import {   MoreOutlined } from "@ant-design/icons";
 import ChartSummary from "@/components/ChartSummary/ChartSummary";
-import { useState } from "react";
 import { setFormat } from "@/hooks/useUtils";
+import AddButton from "@/components/AddButton/AddButton";
 
 type DataType = Expense | Income;
 
@@ -36,14 +36,15 @@ export default function Details() {
     if (typeof element === "string") {
       return parseInt(element.split("-", 2)[1]) - 1;
     } else {
-      console.log("valor no string == error improbable");
+      console.log('posible error ')
     }
   };
   const expenseYear = (element: string) => {
     if (typeof element === "string") {
       return parseInt(element.split("-", 2)[0]);
     } else {
-      console.log("valor no string == error improbable");
+      console.log('posible error ')
+
     }
   };
 
@@ -175,6 +176,7 @@ export default function Details() {
           )}
         />
       </div>
+      <AddButton />
     </section>
   );
 }

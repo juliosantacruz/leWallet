@@ -12,18 +12,30 @@ import AddIncomeForm from "@/components/AddIncomeForm/AddIncomeForm";
 import { useState } from "react";
 import { Button, Modal, Popover } from "antd";
 import { Router, useRouter } from "next/router";
+import { useStateStore } from "@/store/state-store";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const router = useRouter();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [addExpense, setAddExpense] = useState(false);
-  const [addIncome, setAddIncome] = useState(false);
+  const router = useRouter(); 
+
+  // stateStore
+  const openModal = useStateStore(state=>state.openModal)
+  const addExpense = useStateStore(state=>state.addExpense)
+  const addIncome = useStateStore(state=>state.addIncome)
+  const setOpenModal=   useStateStore(state => state.setOpenModal)
+  const setAddExpense=   useStateStore(state => state.setAddExpense)
+  const setAddIncome=   useStateStore(state => state.setAddIncome)
+
+ 
+
   const expensesList: any = useGetStore(
     useExpensesStore,
     (state: any) => state.expenses
   );
+
+ 
+  
   const setMonthYear = (element: Expense) => {
     const expenseMonth = parseInt(element.date.split("-", 2)[1]);
     const expenseYear = parseInt(element.date.split("-", 2)[0]);
@@ -37,11 +49,11 @@ export default function Home() {
   });
 
   const handleOk = () => {
-    setIsModalOpen(false);
+    setOpenModal(false);
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    setOpenModal(false);
     setAddExpense(false);
     setAddIncome(false);
   };
@@ -62,21 +74,16 @@ export default function Home() {
         })}
 
         <Modal
-          open={isModalOpen}
+          open={openModal}
           onOk={handleOk}
           onCancel={handleCancel}
           footer={null}
         >
-          {addExpense && <AddExpenseForm setOpenModal={setIsModalOpen} />}
-          {addIncome && <AddIncomeForm setOpenModal={setIsModalOpen} />}
+          {addExpense && <AddExpenseForm setOpenModal={setOpenModal} />}
+          {addIncome && <AddIncomeForm setOpenModal={setOpenModal} />}
         </Modal>
 
-        <AddButton
-          openModal={isModalOpen}
-          setOpenModal={setIsModalOpen}
-          setAddExpense={setAddExpense}
-          setAddIncome={setAddIncome}
-        />
+        <AddButton />
         {/* <AddIncomeForm /> */}
       </section>
     </>

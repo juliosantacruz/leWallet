@@ -1,8 +1,14 @@
+import { useStateStore } from "@/store/state-store";
 import { PlusOutlined } from "@ant-design/icons";
 import { Button, Popover } from "antd";
 import React from "react";
 
-export default function AddButton({ openModal, setOpenModal,setAddExpense, setAddIncome }: any) {
+export default function AddButton() {
+   // stateStore
+   const setOpenModal=   useStateStore(state => state.setOpenModal)
+   const setAddExpense=   useStateStore(state => state.setAddExpense)
+   const setAddIncome=   useStateStore(state => state.setAddIncome)
+
   const showModalExpense = () => {
     setOpenModal(true);
     setAddExpense(true)
