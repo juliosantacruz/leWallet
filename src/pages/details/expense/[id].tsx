@@ -27,7 +27,7 @@ const handleClick = () => {
     error => {
       console.log(error.message)
     },
-    {enableHighAccuracy: true,  timeout: 10000,  }
+    {maximumAge: 0, enableHighAccuracy: true,  timeout: 10000,  }
   );
 }
 
