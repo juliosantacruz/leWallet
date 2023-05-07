@@ -3,5 +3,7 @@ export interface Expense{
     description:string,
     category:string,
     date: string,
-    amount:number|string 
+    amount:number|string,
+    latitud: number | null,
+    longitud: number | null, 
 }

@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react'
+// import MapViewer from '@/components/MapViewer/MapViewer'
+import React, { useEffect, useRef, useState } from 'react'
+import dynamic from "next/dynamic"
+
 
 
 type Coordenadas = {
@@ -7,51 +10,40 @@ type Coordenadas = {
     error:string | null
 }
 
+const MapViewer = dynamic(() => import("../../../components/MapViewer/MapViewer"), { ssr:false })
 
 
 export default function ExpenseDetails() {
-  const [coordenadas, setCoordenadas] = useState<Coordenadas>({
-    latitud:null,
-    longitud:null,
-    error:null
-  })
+  const [coordenadas, setCoordenadas] = useState<any>([22.509,-126.8726 ])
 
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      position => {
-        setCoordenadas({
-          latitud: position.coords.latitude,
-          longitud: position.coords.longitude,
-          error: null,
-        });
-      },
-      error => {
-        setCoordenadas({
-          error: error.message,
-          latitud: null,
-          longitud: null,
-        });
-      }
-    );
-  }, []);
+  
+const handleClick = () => {
+  navigator.geolocation.getCurrentPosition(
+    position => {
+      setCoordenadas([
+        position.coords.latitude,position.coords.longitude
+      ] );
+    },
+    error => {
+      console.log(error.message)
+    },
+    {enableHighAccuracy: true,  timeout: 10000,  }
+  );
+}
 
   return (
     <div>
       <h3>Soy un test </h3>
       <div>
-      <BotonCoordenadas onClick={() => {}} />
-      {coordenadas.error && <p>Error: {coordenadas.error}</p>}
+      <button onClick={handleClick}>Obtener Cooredenadas</button>
+      {/* {coordenadas.error && <p>Error: {coordenadas.error}</p>}
       {coordenadas.latitud && <p>Latitud: {coordenadas.latitud}</p>}
-      {coordenadas.longitud && <p>Longitud: {coordenadas.longitud}</p>}
+      {coordenadas.longitud && <p>Longitud: {coordenadas.longitud}</p>} */}
     </div>
+
+    <MapViewer coordinates={coordenadas}  />
     </div>
   )
 }
 
 
-
-const BotonCoordenadas = ({onClick}:any) => {
-  return(
-    <button onClick={onClick}>Obtener Cooredenadas</button>
-  )
-}

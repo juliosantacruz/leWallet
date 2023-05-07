@@ -3,6 +3,7 @@ import "../components/CardSummary/CardSummary.scss";
 import "../components/AddButton/AddButton.scss";
 import "../components/CardItem/CardItem.scss";
 import "../components/AddExpenseForm/AddExpenseForm.scss";
+import '../components/MapViewer/MapViewer.scss'
 import "@/styles/details.scss";
 import Layout from "@/layout/Layout";
 

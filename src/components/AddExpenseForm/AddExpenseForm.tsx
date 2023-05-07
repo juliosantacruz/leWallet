@@ -10,17 +10,34 @@ export default function AddExpenseForm({setOpenModal}:any) {
   const { addExpense } = useExpensesStore();
   const { getToday } = useTime();
   const today: any = getToday(dayjs());
+
   const defaultExpenseValue = {
     id: v4(),
     description: "",
     category: "alimentosBebidas",
     date: today,
     amount: "",
+    latitud: null,
+    longitud: null,
   };
   const [formData, setFormData] = useState<Expense>(defaultExpenseValue);
 
   const onSubmit = (event: any) => {
     event.preventDefault();
+
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        setFormData({
+          ...formData,
+          latitud: position.coords.latitude,
+          longitud: position.coords.longitude,
+        });
+      },
+      error => {
+        console.log(error.message)
+      }
+    );
+    
     if (formData.description.length === 0) {
       addExpense({
         ...formData,
@@ -34,7 +51,9 @@ export default function AddExpenseForm({setOpenModal}:any) {
       setOpenModal(false);
 
     }
+
   };
+   
 
   const onChange = (event: any) => {
     const dato = event?.target.value;
@@ -43,6 +62,7 @@ export default function AddExpenseForm({setOpenModal}:any) {
       [event.target.name]: dato,
     });
   };
+
   const onClear = () => {
     setFormData(defaultExpenseValue);
   };
