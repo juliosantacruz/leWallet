@@ -50,7 +50,7 @@ export default function ExpenseDetails() {
 
 
 
-const BotonCoordenadas = ({onClick}) => {
+const BotonCoordenadas = ({onClick}:any) => {
   return(
     <button onClick={onClick}>Obtener Cooredenadas</button>
   )
