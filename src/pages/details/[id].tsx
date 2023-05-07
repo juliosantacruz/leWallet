@@ -1,14 +1,17 @@
 import React from "react";
-import { List, Popover,   } from "antd";
+import { List, Modal, Popover } from "antd";
 import { useExpensesStore } from "@/store/expenses-store";
 import { useRouter } from "next/router";
 import useGetData from "@/hooks/useGetData";
 import { Expense } from "@/types/expense";
 import { Income } from "@/types/income";
-import {   MoreOutlined } from "@ant-design/icons";
+import { MoreOutlined } from "@ant-design/icons";
 import ChartSummary from "@/components/ChartSummary/ChartSummary";
 import { setFormat } from "@/hooks/useUtils";
 import AddButton from "@/components/AddButton/AddButton";
+import { useStateStore } from "@/store/state-store";
+import AddIncomeForm from "@/components/AddIncomeForm/AddIncomeForm";
+import AddExpenseForm from "@/components/AddExpenseForm/AddExpenseForm";
 
 type DataType = Expense | Income;
 
@@ -28,6 +31,14 @@ const months: string[] = [
 ];
 
 export default function Details() {
+  // stateStore
+  const openModal = useStateStore((state) => state.openModal);
+  const addExpense = useStateStore((state) => state.addExpense);
+  const addIncome = useStateStore((state) => state.addIncome);
+  const setOpenModal = useStateStore((state) => state.setOpenModal);
+  const setAddExpense = useStateStore((state) => state.setAddExpense);
+  const setAddIncome = useStateStore((state) => state.setAddIncome);
+
   const router = useRouter();
   const dateQuery: any = router.query.id;
   const { expenses, incomes } = useExpensesStore();
@@ -36,15 +47,14 @@ export default function Details() {
     if (typeof element === "string") {
       return parseInt(element.split("-", 2)[1]) - 1;
     } else {
-      console.log('posible error ')
+      console.log("posible error ");
     }
   };
   const expenseYear = (element: string) => {
     if (typeof element === "string") {
       return parseInt(element.split("-", 2)[0]);
     } else {
-      console.log('posible error ')
-
+      console.log("posible error ");
     }
   };
 
@@ -66,7 +76,7 @@ export default function Details() {
     return <div className="list-footer">Total {setFormat(totalAmount)}</div>;
   };
 
-  const { deleteExpense, deleteIncome } = useExpensesStore();
+  const { deleteExpense, updateExpense ,deleteIncome } = useExpensesStore();
 
   const onDeleteExpese = (data: DataType) => {
     deleteExpense(data.id);
@@ -75,21 +85,33 @@ export default function Details() {
     deleteIncome(data.id);
   };
 
-  function toDelete(item:any){
-    if(item.category){
-      onDeleteExpese(item)
-    }else{
-      onDeleteIncome(item)
+  function toDelete(item: any) {
+    if (item.category) {
+      onDeleteExpese(item);
+    } else {
+      onDeleteIncome(item);
     }
   }
-
+  function toEdit(item:any){
+    if (item.category) {
+      updateExpense(item);
+    } else {
+      console.log('editar',item);
+    }
+  }
+  const showModalExpense = (item:any) => {
+    if (addIncome) { setAddIncome(false)}
+    toEdit(item)
+    setOpenModal(true);
+    setAddExpense(true);
+  };
   const popoverContent = (item: any) => (
     <div className="form-buttons">
-      <button className="add-button-form add-income"> Edit </button>
+      <button className="add-button-form add-income"
+      onClick={()=> showModalExpense(item)}> Edit </button>
       <button
         className="add-button-form add-expense"
-        
-        onClick={()=>toDelete(item)}
+        onClick={() => toDelete(item)}
       >
         {" "}
         Delete{" "}
@@ -98,85 +120,102 @@ export default function Details() {
   );
 
   return (
-    <section className="details-main">
-      <h2>{cardTitle} </h2>
-      <div className="chart-summary">
-        <ChartSummary Expenses={totalExpenses} Income={totalIncome} />
-      </div>
-      <div className="dataset">
-        <h3 className="list-title">Expenses</h3>
+    <>
+      <section className="details-main">
+        <h2>{cardTitle} </h2>
+        <div className="chart-summary">
+          <ChartSummary Expenses={totalExpenses} Income={totalIncome} />
+        </div>
+        <div className="dataset">
+          <h3 className="list-title">Expenses</h3>
 
-        <List
-          itemLayout="horizontal"
-          dataSource={dataExpense}
-          footer={<div>{footer(totalExpenses)}</div>}
-          renderItem={(item: any) => (
-            <List.Item>
-              <List.Item.Meta
-                title={
-                  <div className="list-item">
-                    {" "}
-                    <div> {item.description} </div>
-                    <div className="list-item-right">
-                      <div className="list-item-amount">{setFormat(item.amount)} </div>
-                      <Popover
-                        placement="topRight"
-                        content={popoverContent(item)}
-                        trigger="click"
-                         
-                      >
-                        <button className="options-btn">
-                          <MoreOutlined />
-                        </button>
-                      </Popover>
-                    </div>{" "}
-                  </div>
-                }
-                description={
-                  <div className="list-item-description">{`date: ${item.date} - category: ${item.category}`}</div>
-                }
-              />
-            </List.Item>
-          )}
-        />
-      </div>
+          <List
+            itemLayout="horizontal"
+            dataSource={dataExpense}
+            footer={<div>{footer(totalExpenses)}</div>}
+            renderItem={(item: any) => (
+              <List.Item>
+                <List.Item.Meta
+                  title={
+                    <div className="list-item">
+                      {" "}
+                      <div> {item.description} </div>
+                      <div className="list-item-right">
+                        <div className="list-item-amount">
+                          {setFormat(item.amount)}{" "}
+                        </div>
+                        <Popover
+                          placement="topRight"
+                          content={popoverContent(item)}
+                          trigger="click"
+                        >
+                          <button className="options-btn">
+                            <MoreOutlined />
+                          </button>
+                        </Popover>
+                      </div>{" "}
+                    </div>
+                  }
+                  description={
+                    <div className="list-item-description">{`date: ${item.date} - category: ${item.category}`}</div>
+                  }
+                />
+              </List.Item>
+            )}
+          />
+        </div>
 
-      <div className="dataset">
-        <h3 className="list-title">Income</h3>
-        <List
-          itemLayout="horizontal"
-          dataSource={dataIncome}
-          footer={<div>{footer(totalIncome)}</div>}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                title={
-                  <div className="list-item">
-                    {" "}
-                    <div> {item.description} </div>
-                    <div className="list-item-right">
-                      <div className="list-item-amount">{ setFormat(item.amount)} </div>
-                      <Popover
-                        placement="topRight"
-                        content={popoverContent(item)}
-                        trigger="click"
-                      >
-                        <button className="options-btn">
-                          <MoreOutlined />
-                        </button>
-                      </Popover>
-                    </div>{" "}
-                  </div>
-                }
-                description={
-                  <div className="list-item-description">{`date: ${item.date}`}</div>
-                }
-              />
-            </List.Item>
-          )}
-        />
-      </div>
+        <div className="dataset">
+          <h3 className="list-title">Income</h3>
+          <List
+            itemLayout="horizontal"
+            dataSource={dataIncome}
+            footer={<div>{footer(totalIncome)}</div>}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  title={
+                    <div className="list-item">
+                      {" "}
+                      <div> {item.description} </div>
+                      <div className="list-item-right">
+                        <div className="list-item-amount">
+                          {setFormat(item.amount)}{" "}
+                        </div>
+                        <Popover
+                          placement="topRight"
+                          content={popoverContent(item)}
+                          trigger="click"
+                        >
+                          <button className="options-btn">
+                            <MoreOutlined />
+                          </button>
+                        </Popover>
+                      </div>{" "}
+                    </div>
+                  }
+                  description={
+                    <div className="list-item-description">{`date: ${item.date}`}</div>
+                  }
+                />
+              </List.Item>
+            )}
+          />
+        </div>
+      </section>
+      
+
+      <Modal
+        open={openModal}
+        onOk={() => setOpenModal(false)}
+        onCancel={() => setOpenModal(false)}
+        footer={null}
+      >
+        {addExpense && <AddExpenseForm setOpenModal={setOpenModal} />}
+        {addIncome && <AddIncomeForm setOpenModal={setOpenModal} />}
+      </Modal>
+
       <AddButton />
-    </section>
+    </>
   );
 }

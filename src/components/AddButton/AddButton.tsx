@@ -4,23 +4,37 @@ import { Button, Popover } from "antd";
 import React from "react";
 
 export default function AddButton() {
-   // stateStore
-   const setOpenModal=   useStateStore(state => state.setOpenModal)
-   const setAddExpense=   useStateStore(state => state.setAddExpense)
-   const setAddIncome=   useStateStore(state => state.setAddIncome)
+  // stateStore
+  const openModal = useStateStore((state) => state.openModal);
+  const addExpense = useStateStore((state) => state.addExpense);
+  const addIncome = useStateStore((state) => state.addIncome);
+  const setOpenModal = useStateStore((state) => state.setOpenModal);
+  const setAddExpense = useStateStore((state) => state.setAddExpense);
+  const setAddIncome = useStateStore((state) => state.setAddIncome);
 
   const showModalExpense = () => {
+    if (addIncome) {
+      setAddIncome(false);
+    }
     setOpenModal(true);
-    setAddExpense(true)
+    setAddExpense(true);
   };
   const showModalIncome = () => {
+    if(addExpense){setAddExpense(false)}
     setOpenModal(true);
-    setAddIncome(true)
+    setAddIncome(true);
   };
   const popoverContent = (
     <div className="form-buttons">
-      <button className="add-button-form add-income" onClick={showModalIncome}>add Income</button>
-      <button className="add-button-form add-expense" onClick={showModalExpense}>add Expense</button>
+      <button className="add-button-form add-income" onClick={showModalIncome}>
+        add Income
+      </button>
+      <button
+        className="add-button-form add-expense"
+        onClick={showModalExpense}
+      >
+        add Expense
+      </button>
     </div>
   );
   return (

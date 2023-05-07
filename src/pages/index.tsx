@@ -48,15 +48,7 @@ export default function Home() {
     }
   });
 
-  const handleOk = () => {
-    setOpenModal(false);
-  };
-
-  const handleCancel = () => {
-    setOpenModal(false);
-    setAddExpense(false);
-    setAddIncome(false);
-  };
+ 
 
   return (
     <>
@@ -75,8 +67,8 @@ export default function Home() {
 
         <Modal
           open={openModal}
-          onOk={handleOk}
-          onCancel={handleCancel}
+          onOk={()=>setOpenModal(false)}
+          onCancel={()=>setOpenModal(false)}
           footer={null}
         >
           {addExpense && <AddExpenseForm setOpenModal={setOpenModal} />}
