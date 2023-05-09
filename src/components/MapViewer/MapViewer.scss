@@ -2,11 +2,13 @@
     height: 500px;
     width: 90%;
     border: 1px solid black;
-    border-radius: 10%;
+    border-radius: 10px;
   }
   
   @media screen and (max-width: 768px) {
     .MapContainer {
-      height: 200px;
+      height: 80vw;
+      width: 80vw;
+      border-radius: 50%;
     }
   }

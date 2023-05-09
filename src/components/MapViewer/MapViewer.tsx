@@ -1,14 +1,7 @@
 import React, { useEffect, useRef } from "react";
-import {
-  Circle,
-  LayerGroup,
-  LayersControl,
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-} from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
 function MapViewer({ coordinates }: any) {
   const mapRef = useRef<any>(null);
@@ -22,8 +15,9 @@ function MapViewer({ coordinates }: any) {
   return (
     <MapContainer
       center={coordinates}
-      zoom={13}
+      zoom={17}
       scrollWheelZoom={false}
+      zoomControl={false}
       ref={mapRef}
       className="MapContainer"
     >
@@ -31,35 +25,21 @@ function MapViewer({ coordinates }: any) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker position={coordinates}>
+      <Marker position={coordinates} icon={myIcon}>
         <Popup>
           A pretty CSS3 popup. <br /> Easily customizable.
         </Popup>
       </Marker>
-      <LayersControl.Overlay checked name="Layer group with circles">
-        <LayerGroup>
-          <Circle
-            center={coordinates}
-            pathOptions={{ fillColor: "blue" }}
-            radius={200}
-          />
-          <Circle
-            center={coordinates}
-            pathOptions={{ fillColor: "red" }}
-            radius={100}
-            stroke={false}
-          />
-          <LayerGroup>
-            <Circle
-              center={[51.51, -0.08]}
-              pathOptions={{ color: "green", fillColor: "green" }}
-              radius={100}
-            />
-          </LayerGroup>
-        </LayerGroup>
-      </LayersControl.Overlay>
     </MapContainer>
   );
 }
 
 export default MapViewer;
+
+const myIcon = new L.Icon({
+  iconUrl:
+    "https://img.uxwing.com/wp-content/themes/uxwing/download/location-travel-map/map-pin-icon.svg",
+  iconSize: [38, 38],
+  iconAnchor: [22, 94],
+  popupAnchor: [-3, -76],
+});

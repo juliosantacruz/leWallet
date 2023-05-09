@@ -76,7 +76,7 @@ export default function Details() {
     return <div className="list-footer">Total {setFormat(totalAmount)}</div>;
   };
 
-  const { deleteExpense, updateExpense ,deleteIncome } = useExpensesStore();
+  const { deleteExpense, updateExpense, deleteIncome } = useExpensesStore();
 
   const onDeleteExpese = (data: DataType) => {
     deleteExpense(data.id);
@@ -92,23 +92,30 @@ export default function Details() {
       onDeleteIncome(item);
     }
   }
-  function toEdit(item:any){
+  function toEdit(item: any) {
     if (item.category) {
       updateExpense(item);
     } else {
-      console.log('editar',item);
+      console.log("editar", item);
     }
   }
-  const showModalExpense = (item:any) => {
-    if (addIncome) { setAddIncome(false)}
-    toEdit(item)
+  const showModalExpense = (item: any) => {
+    if (addIncome) {
+      setAddIncome(false);
+    }
+    toEdit(item);
     setOpenModal(true);
     setAddExpense(true);
   };
   const popoverContent = (item: any) => (
     <div className="form-buttons">
-      <button className="add-button-form add-income"
-      onClick={()=> showModalExpense(item)}> Edit </button>
+      <button
+        className="add-button-form add-income"
+        onClick={() => showModalExpense(item)}
+      >
+        {" "}
+        Edit{" "}
+      </button>
       <button
         className="add-button-form add-expense"
         onClick={() => toDelete(item)}
@@ -134,7 +141,8 @@ export default function Details() {
             dataSource={dataExpense}
             footer={<div>{footer(totalExpenses)}</div>}
             renderItem={(item: any) => (
-              <List.Item>
+              <List.Item
+              onClick={() => router.push(`itemDetail/${item.id}`)}>
                 <List.Item.Meta
                   title={
                     <div className="list-item">
@@ -197,13 +205,13 @@ export default function Details() {
                   description={
                     <div className="list-item-description">{`date: ${item.date}`}</div>
                   }
+                  
                 />
               </List.Item>
             )}
           />
         </div>
       </section>
-      
 
       <Modal
         open={openModal}
