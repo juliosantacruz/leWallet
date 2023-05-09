@@ -141,8 +141,7 @@ export default function Details() {
             dataSource={dataExpense}
             footer={<div>{footer(totalExpenses)}</div>}
             renderItem={(item: any) => (
-              <List.Item
-              onClick={() => router.push(`itemDetail/${item.id}`)}>
+              <List.Item onClick={() => router.push(`itemDetail/${item.id}`)}>
                 <List.Item.Meta
                   title={
                     <div className="list-item">
@@ -205,7 +204,6 @@ export default function Details() {
                   description={
                     <div className="list-item-description">{`date: ${item.date}`}</div>
                   }
-                  
                 />
               </List.Item>
             )}

@@ -32,6 +32,7 @@ export default function AddExpenseForm({setOpenModal}:any) {
           latitud: position.coords.latitude,
           longitud: position.coords.longitude,
         });
+        console.log('posicion guardada')
       },
       error => {
         console.log(error.message)
