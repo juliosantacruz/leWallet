@@ -1,11 +1,9 @@
 // import MapViewer from '@/components/MapViewer/MapViewer'
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import dynamic from "next/dynamic";
 import { useExpensesStore } from "@/store/expenses-store";
 import { useRouter } from "next/router";
-import { Expense } from "@/types/expense";
-import { setFormat } from "@/hooks/useUtils";
-import useGetData from "@/hooks/useGetData";
+import { Expense } from "@/types/expense"; 
 
 const MapViewer = dynamic(
   () => import("../../../components/MapViewer/MapViewer"),
@@ -13,45 +11,31 @@ const MapViewer = dynamic(
 );
 
 export default function ExpenseDetails() {
-  const [item, setItem] = useState<Expense>({
-    id: "",
-    description: "",
-    category: "",
-    date: "",
-    amount: "",
-    latitud: null,
-    longitud: null,
-  });
+  
   const router = useRouter();
   const expenseId: any = router.query.id;
   const { expenses } = useExpensesStore();
 
   // Total Expenses
-  const getDataExpenses = useGetData(expenses, item.date);
-  const totalExpenses = getDataExpenses.totalAmount;
   const itemFilter: Expense[] = expenses.filter(
     (item) => item.id === expenseId
   );
-  setItem(itemFilter[0]);
-  useEffect(() => {}, []);
+  
 
   return (
     <div>
-      <h2> {item?.description} </h2>
+      <h2> I&apos;m expense title </h2>
       <div>
         <ul>
-          <li>Category: {item?.category}</li>
-          <li>Date: {item?.date}</li>
-          <li>Amount: {setFormat(item?.amount)}</li>
-          <li>Total Expenses: {setFormat(totalExpenses)}</li>
-          <li>
-            % : {((Number(item?.amount) / totalExpenses) * 100).toFixed(3)}
-          </li>
-        </ul>
-        {item?.latitud} | {item?.longitud}
+          <li>Category: test</li>
+          <li>Date:  test</li>
+          <li>Amount: </li>
+          <li>Total Expenses:  </li>
+           
+        </ul> 
       </div>
-      {item?.latitud && (
-        <MapViewer coordinates={[item.latitud, item.longitud]} />
+      {false && (
+        <MapViewer coordinates={[100, 20]} />
       )}
     </div>
   );
