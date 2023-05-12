@@ -12,6 +12,7 @@ import AddButton from "@/components/AddButton/AddButton";
 import { useStateStore } from "@/store/state-store";
 import AddIncomeForm from "@/components/AddIncomeForm/AddIncomeForm";
 import AddExpenseForm from "@/components/AddExpenseForm/AddExpenseForm";
+import { CSVLink } from "react-csv";
 
 type DataType = Expense | Income;
 
@@ -99,22 +100,23 @@ export default function Details() {
       console.log("editar", item);
     }
   }
-  const showModalExpense = (item: any) => {
-    if (addIncome) {
-      setAddIncome(false);
-    }
-    toEdit(item);
-    setOpenModal(true);
-    setAddExpense(true);
-  };
+  // const showModalExpense = (item: any) => {
+  //   if (addIncome) {
+  //     setAddIncome(false);
+  //   }
+  //   toEdit(item);
+  //   setOpenModal(true);
+  //   setAddExpense(true);
+  // };
   const popoverContent = (item: any) => (
     <div className="form-buttons">
       <button
         className="add-button-form add-income"
-        onClick={() => showModalExpense(item)}
+        disabled
+        onClick={() => router.push(`itemDetail/${item.id}`)}
       >
         {" "}
-        Edit{" "}
+        More Info{" "}
       </button>
       <button
         className="add-button-form add-expense"
@@ -126,22 +128,32 @@ export default function Details() {
     </div>
   );
 
+  // const dataToExcel = [...dataIncome, ...dataExpense]
+
   return (
     <>
       <section className="details-main">
         <h2>{cardTitle} </h2>
+        {/* <CSVLink
+        data={dataToExcel}
+        >
+          Download Info
+        </CSVLink> */}
         <div className="chart-summary">
           <ChartSummary Expenses={totalExpenses} Income={totalIncome} />
         </div>
         <div className="dataset">
-          <h3 className="list-title">Expenses</h3>
+          <div className="tableHeader">
+            <h3 className="list-title">Expenses</h3>
+            <CSVLink data={dataExpense} filename={`Expenses_${cardTitle}`} >Download Expenses Info</CSVLink>
+          </div>
 
           <List
             itemLayout="horizontal"
             dataSource={dataExpense}
             footer={<div>{footer(totalExpenses)}</div>}
             renderItem={(item: any) => (
-              <List.Item onClick={() => router.push(`itemDetail/${item.id}`)}>
+              <List.Item>
                 <List.Item.Meta
                   title={
                     <div className="list-item">
@@ -173,7 +185,11 @@ export default function Details() {
         </div>
 
         <div className="dataset">
-          <h3 className="list-title">Income</h3>
+          <div className="tableHeader">
+            <h3 className="list-title">Income</h3>
+            <CSVLink data={dataIncome} filename={`Income_${cardTitle}`}>Download Income Info</CSVLink>
+          </div>
+
           <List
             itemLayout="horizontal"
             dataSource={dataIncome}

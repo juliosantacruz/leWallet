@@ -13,13 +13,12 @@ const MapViewer = dynamic(
 );
 
 export default function ExpenseDetails() {
-  const [coordenadas, setCoordenadas] = useState<any>([22.509, -126.8726]);
   const [item, setItem] = useState<Expense>({
     id: "",
     description: "",
     category: "",
     date: "",
-    amount: 0,
+    amount: "",
     latitud: null,
     longitud: null,
   });
@@ -30,13 +29,11 @@ export default function ExpenseDetails() {
   // Total Expenses
   const getDataExpenses = useGetData(expenses, item.date);
   const totalExpenses = getDataExpenses.totalAmount;
-
-  useEffect(() => {
-    const itemFilter: Expense[] = expenses.filter(
-      (item) => item.id === expenseId
-    );
-    setItem(itemFilter[0]);
-  }, []);
+  const itemFilter: Expense[] = expenses.filter(
+    (item) => item.id === expenseId
+  );
+  setItem(itemFilter[0]);
+  useEffect(() => {}, []);
 
   return (
     <div>
@@ -47,7 +44,9 @@ export default function ExpenseDetails() {
           <li>Date: {item?.date}</li>
           <li>Amount: {setFormat(item?.amount)}</li>
           <li>Total Expenses: {setFormat(totalExpenses)}</li>
-          <li>% : {((Number(item?.amount)/totalExpenses )*100).toFixed(3)}</li>
+          <li>
+            % : {((Number(item?.amount) / totalExpenses) * 100).toFixed(3)}
+          </li>
         </ul>
         {item?.latitud} | {item?.longitud}
       </div>

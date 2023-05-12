@@ -1,37 +1,42 @@
-.add-button{
+.add-button {
     position: fixed;
     bottom: 20px;
     right: 20px;
     z-index: 5;
 }
-.add-button-button{
+.add-button-button {
     height: 60px;
     width: 60px;
     cursor: pointer;
 }
-.add-button-icon{
+.add-button-icon {
     font-size: 30px;
 }
-.form-buttons{
+.form-buttons {
     display: flex;
     flex-direction: row;
     align-items: center;
     width: 100%;
     min-width: 280px;
+    button:disabled {
+        color: rgb(71, 71, 71);
+        font-style: italic;
+        background: #afafaf;
+        border: 1px solid #000000;
+    }
 }
-.add-button-form{
-  
+.add-button-form {
     width: 45%;
     margin: 10px 10px;
     border-radius: 7px;
     cursor: pointer;
 }
-.add-expense{
+.add-expense {
     color: white;
     background: #b55252;
     border: 1px solid #830000;
 }
-.add-income{
+.add-income {
     color: white;
     background: #5ab552;
     border: 1px solid #00831c;
