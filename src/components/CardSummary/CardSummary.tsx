@@ -1,9 +1,12 @@
 import { Col, Progress, Row } from "antd";
-import React from "react";
+import React, { useState } from "react";
 import { useExpensesStore } from "@/store/expenses-store";
 import { Income } from "@/types/income";
 import { Expense } from "@/types/expense";
 import { setFormat } from "../../hooks/useUtils";
+import viewIcon from './../../assets/icons/view.png'
+import hideIcon from './../../assets/icons/hide.png'
+import Image from "next/image";
 
 const setMonthYear = (element: Expense | Income) => {
   const expenseMonth = parseInt(element.date.split("-", 2)[1]);
@@ -27,7 +30,10 @@ const months: string[] = [
   "November",
   "December",
 ];
+
+
 export default function CardSummary({ dateCard }: any) {
+  const [isHidden, setIsHidden] = useState(false)
   const { expenses, incomes } = useExpensesStore();
 
   const monthExpenses: Expense[] = [];
@@ -68,12 +74,22 @@ const balanceStyle=(amount:any) =>{
   }
 }
 
+const handdleHide=(event:any)=>{
+  event.stopPropagation()
+  setIsHidden(!isHidden)
+
+}
+
   return (
     <article className="card-summary">
       <div className="card-title">
         <h2> {cardTitle}</h2>
+        <button className="hideBtn" onClick={event=>handdleHide(event)}>
+          <Image src={isHidden?hideIcon:viewIcon} className="imgIcon" alt="icon"  />
+        </button>
       </div>
-      <div className="card-content">
+
+      <div className={`card-content ${isHidden?'isHidden':''}`}>
         <Row justify={"space-between"}>
           <Col>
             <p>Expenses: </p>
@@ -106,7 +122,7 @@ const balanceStyle=(amount:any) =>{
         </Row>
       </div>
 
-      <div className="card-footer">
+      <div className={`card-footer ${isHidden?'isHidden':''}`}>
         <Progress
           type="line"
           percent={GastoPorcentaje}

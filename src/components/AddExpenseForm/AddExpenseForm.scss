@@ -1,44 +1,62 @@
-.form-card{
+.form-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   max-width: 500px;
-    width: 90vw;
-    margin: 0 auto;
+  width: 90vw;
+  margin: 0 auto;
+
+
+@media only screen and (max-width:440px){
+    max-width: 400px;
+
 }
-.AddForm{
-     
-    padding: 15px;
-    
+
 }
- .form-footer{
-    margin: 20px 0 10px;
- }
- .formButton{
-    width: 48%;
-    border-radius: 5px;
- }
- .inputElement{
-   width: 100%;
-   display: flex;
-   flex-direction: column;
- }
- label{
-   height: 20px;
-   margin: 5px 0;
-   font-size: 16px;
- }
- input, select{
-   height: 40px;
-   width: 100%;
-   font-size: 20px;
- }
- button{
-   height: 40px;
- }
- .success{
-   background: #0cb832;
- }
- .clear{
-   background: #b80c0c;
- }
+
+.AddForm {
+
+  padding: 15px;
+
+}
+
+.form-footer {
+  margin: 20px 0 10px;
+}
+
+.formButton {
+  width: 48%;
+  border-radius: 5px;
+}
+
+.inputElement {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  height: 20px;
+  margin: 5px 0;
+  font-size: 16px;
+}
+
+input,
+select {
+  height: 40px;
+  width: 100%;
+  font-size: 20px;
+}
+
+button {
+  height: 40px;
+}
+
+.success {
+  background: #0cb832;
+}
+
+.clear {
+  background: #b80c0c;
+}
+
