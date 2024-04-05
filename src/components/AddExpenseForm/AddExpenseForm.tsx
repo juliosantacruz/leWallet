@@ -70,7 +70,7 @@ export default function AddExpenseForm({ setOpenModal }: any) {
       <h2>Add Expense</h2>
       <form className="AddForm" onSubmit={(event) => onSubmit(event)}>
         <div className="form-content">
-          <Row gutter={[10, 10]}>
+          <Row gutter={[5, 10]}>
             <Col span={24}>
               <div className="inputElement">
                 <label htmlFor="description">Description</label>
